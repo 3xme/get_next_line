@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/23 16:12:52 by ybarhdad          #+#    #+#             */
-/*   Updated: 2019/11/02 12:53:08 by abiari           ###   ########.fr       */
+/*   Created: 2019/11/02 14:11:53 by abiari            #+#    #+#             */
+/*   Updated: 2019/11/02 14:11:56 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "get_next_line.h"
 #include <stdio.h>
-#define BUFFER_SIZE  15
 
 char	*ft_getlines(int fd, char *str)
 {
@@ -76,10 +75,10 @@ int	get_next_line(int fd, char **line)
 	}
 }
 
-int main(int argc, char **argv)
+int main()
 {
 
-	int fd = open(argv[1], O_RDONLY);
+	int fd = open("txt.txt", O_RDONLY);
 	char *line;
  	while (get_next_line(fd, &line))
 	{
@@ -87,6 +86,6 @@ int main(int argc, char **argv)
 		free(line);
 }
 	free(line);
-	return (argc);
+	return (0);
 }
 
