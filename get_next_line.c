@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/02 14:11:53 by abiari            #+#    #+#             */
-/*   Updated: 2019/11/04 14:08:29 by abiari           ###   ########.fr       */
+/*   Updated: 2019/11/04 18:41:08 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ int		get_next_line(int fd, char **line)
 int main()
 {
 
-	int fd = open("txt.txt", O_RDONLY);
+	//int fd = open("txt.txt", O_RDONLY);
 	char *line;
- 	while (get_next_line(fd, &line))
+	int  ret = 0;
+ 	while ((ret = get_next_line(1, &line)))
 	{
+		printf("%d  ", ret);
 		printf("%s\n",line);
 		free(line);
 }
