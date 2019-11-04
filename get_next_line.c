@@ -6,70 +6,64 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/02 14:11:53 by abiari            #+#    #+#             */
-/*   Updated: 2019/11/02 14:11:56 by abiari           ###   ########.fr       */
+/*   Updated: 2019/11/04 14:08:29 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include "get_next_line.h"
 #include <stdio.h>
 
-char	*ft_getlines(int fd, char *str)
+char	*ft_stock(int fd, char *str)
 {
 	char	*temp;
-	int 	ret;
-	char 	*buffer;
+	int		b_read;
+	char	*buff;
 
-
-	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	ret = 0; 
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	b_read = 0;
 	if (!str)
 		str = ft_strdup("");
-	while (ft_strchr(str,'\n') == NULL)
+	while (ft_strchr(str, '\n') == NULL)
 	{
-		if ((ret = read(fd, buffer, BUFFER_SIZE)) < 0)
-		{	
-			free(buffer);
-			return 0;
+		if ((b_read = read(fd, buff, BUFFER_SIZE)) < 0)
+		{
+			free(buff);
+			return (0);
 		}
-		buffer[ret] = '\0';
+		buff[b_read] = '\0';
 		temp = str;
-		str = ft_strjoin(str, buffer);
+		str = ft_strjoin(str, buff);
 		free(temp);
-		if (ret == 0 || str[0] =='\0' )
-			break;
+		if (b_read == 0 || str[0] == '\0')
+			break ;
 	}
-	free(buffer);
+	free(buff);
 	return (str);
 }
-int	get_next_line(int fd, char **line)
+
+int		get_next_line(int fd, char **line)
 {
+	static char	*str;
+	char		*temp;
+	char		c;
 
-	static char *str;
-	size_t  len;
-	char  *temp;
-	char c;
-
-	if (fd < 0)
+	if (fd < 0 || !line || read(fd, &c, 0))
 		return (-1);
-	if (!line || read(fd, &c,0))
-		return (-1);
-	if((str = ft_getlines(fd ,str)) == NULL)
-		return  (0);
+	if ((str = ft_stock(fd, str)) == NULL)
+		return (0);
 	if (!(ft_strchr(str, '\n')))
 	{
-			if(!(*line = ft_strdup(str)))
+		if (!(*line = ft_strdup(str)))
 			return (-1);
 		free(str);
 		str = NULL;
-		return 0;
+		return (0);
 	}
-	else 
+	else
 	{
-		len = ft_strchr(str, '\n') - str;
 		temp = str;
-		*line = ft_substr(str, 0, len);
-		str = ft_strdup(str + len + 1);		
+		*line = ft_substr(str, 0, (ft_strchr(str, '\n') - str));
+		str = ft_strdup(str + (ft_strchr(str, '\n') - str) + 1);
 		free(temp);
 		return (1);
 	}
@@ -88,4 +82,3 @@ int main()
 	free(line);
 	return (0);
 }
-
